@@ -2,8 +2,6 @@
 
 Send notifications when lessons are changed in WebUntis, because they dont seem to be able to do that themselves.
 
-> For support and feature requests, [join my discord](https://discord.com/invite/qETwkZWZrf)!
-
 ## Todo
 - [ ] More notification providers
 - [ ] Support for Lesson Messages

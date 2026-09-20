@@ -24,18 +24,16 @@ val ktor by lazy { HttpClient(CIO) }
 var debug by Delegates.notNull<Boolean>()
     private set
 
-@OptIn(ExperimentalSerializationApi::class)
 val json = Json {
     classDiscriminator = "type"
     allowTrailingComma = true
     isLenient = true
-
 }
 
 suspend fun main() = coroutineScope {
     val config = loadConfig() ?: e("cannot read config")
     debug = config.debug
-    val notificationProvider = when(config.notifications) {
+    val notificationProvider = when (config.notifications) {
         is PushoverNotificationConfig -> {
             i("initializing Pushover notification provider")
             PushoverNotificationProvider(config.notifications)

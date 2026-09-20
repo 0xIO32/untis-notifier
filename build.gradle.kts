@@ -12,15 +12,15 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.11.0")
-    implementation("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.9.0")
-    implementation("org.jetbrains.kotlinx", "kotlinx-datetime", "0.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.8.0")
 
-    implementation("io.ktor", "ktor-client-core", "3.6.0")
-    implementation("io.ktor", "ktor-client-cio", "3.6.0")
+    implementation("io.ktor:ktor-client-core:3.6.0")
+    implementation("io.ktor:ktor-client-cio:3.6.0")
 
-    implementation("com.toddway.shelf" , "Shelf", "2.0.7")
-    implementation("com.github.untisapi", "untis4j", "1.3.6")
+    implementation("com.toddway.shelf:Shelf:2.0.7")
+    implementation("com.github.untisapi:untis4j:1.3.6")
 }
 
 

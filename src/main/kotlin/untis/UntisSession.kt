@@ -1,7 +1,7 @@
 package untis
 
 import config.Untis
-import io.ktor.utils.io.errors.*
+import kotlinx.io.IOException
 import org.bytedream.untis4j.LoginException
 import org.bytedream.untis4j.Session
 import utils.w
