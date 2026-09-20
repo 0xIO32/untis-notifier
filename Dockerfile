@@ -1,4 +1,4 @@
-FROM eclipse-temurin:22
+FROM eclipse-temurin:25
 
 COPY build/libs/WebUntisNotifier.jar WebUntisNotifier.jar
 
