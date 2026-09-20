@@ -34,7 +34,6 @@ fun loadConfig(): Config? =
     Path("config.json").let {
         if (it.exists()) {
             try {
-                println("config: ${it.readText()}")
                 json.decodeFromString(it.readText())
             } catch (e: Exception) {
                 e.printStackTrace()

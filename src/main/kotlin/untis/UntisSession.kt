@@ -9,7 +9,7 @@ import java.time.LocalDate
 
 inline fun closingUntisSession(config: Untis, block: (session: Session) -> Unit) =
     try {
-        Session.login(config.username, config.password, config.server, config.school).apply(block).logout()
+        Session.login(config.username, config.password, config.server, config.school ?: "").apply(block).logout()
     } catch(e: LoginException) {
         w("failed to login to untis")
         e.printStackTrace()
