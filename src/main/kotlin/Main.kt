@@ -14,7 +14,8 @@ import utils.d
 import utils.daysString
 import utils.e
 import utils.i
-import utils.ifTrue
+import java.time.LocalDate
+import java.util.stream.Collectors
 import kotlin.properties.Delegates
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
@@ -63,11 +64,17 @@ suspend fun main() = coroutineScope {
             closingUntisSession(config.untis) { session ->
                 val timeTable = session.todaysTimetable(config.untis.daysInAdvance).apply { sortByStartTime() }
                 for (lesson in timeTable) {
+                    val daysInAdvance = (lesson.date.toEpochDay() - LocalDate.now().toEpochDay()).toInt()
                     (lessonParser.parseChange(lesson) ?: continue)
-                        .filterNot { LessonNotificationStore.has(it.lessonTime, it.lessonDate).ifTrue { d("non-normal lesson (${it.lessonTime}${it.lessonDate.daysString()}, ${it.lessonName}) has already been noticed") } }
                         .forEach {
-                            LessonNotificationStore.add(it.lessonTime, it.lessonDate)
-                            notificationProvider.sendChanges(it)
+                            val new = config.reminder.stream()
+                                .filter { reminder -> reminder >= daysInAdvance }
+                                .collect(Collectors.toSet())
+                            if (LessonNotificationStore.merge(it.lessonTime, it.lessonDate, new)) {
+                                notificationProvider.sendChanges(it)
+                            } else {
+                                d("non-normal lesson (${it.lessonTime}${it.lessonDate.daysString()}, ${it.lessonName}) has already been noticed")
+                            }
                         }
                 }
             }

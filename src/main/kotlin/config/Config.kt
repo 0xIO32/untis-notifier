@@ -27,7 +27,8 @@ data class Config(
         LocalTime.parse("15:35:00") to 9,
         LocalTime.parse("16:20:00") to 10,
     ),
-    val notifications: NotificationConfig
+    val notifications: NotificationConfig,
+    val reminder: ReminderConfig = listOf(0)
 )
 
 fun loadConfig(): Config? =
