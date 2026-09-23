@@ -19,4 +19,6 @@ inline fun closingUntisSession(config: Untis, block: (session: Session) -> Unit)
     }
 
 
-fun Session.todaysTimetable() = getTimetableFromPersonId(LocalDate.now(), LocalDate.now(), infos.personId)
+fun Session.todaysTimetable(daysInAdvance: Int) = getTimetableFromPersonId(LocalDate.now(), LocalDate.now().plusDays(
+    daysInAdvance.toLong()
+), infos.personId)

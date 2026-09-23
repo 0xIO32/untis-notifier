@@ -8,5 +8,6 @@ data class Untis(
     val school: String?,
     val username: String,
     val password: String,
-    val refreshDelaySeconds: Int = 5 * 60
+    val refreshDelaySeconds: Int = 5 * 60,
+    val daysInAdvance: Int = 0
 )

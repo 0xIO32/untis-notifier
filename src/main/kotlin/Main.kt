@@ -2,7 +2,6 @@ import config.*
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import kotlinx.coroutines.*
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import notifications.impl.NtfyNotificationProvider
 import notifications.impl.PushoverNotificationProvider
@@ -12,6 +11,7 @@ import untis.LessonParser
 import untis.closingUntisSession
 import untis.todaysTimetable
 import utils.d
+import utils.daysString
 import utils.e
 import utils.i
 import utils.ifTrue
@@ -61,12 +61,12 @@ suspend fun main() = coroutineScope {
     launch {
         while (isActive) {
             closingUntisSession(config.untis) { session ->
-                val timeTable = session.todaysTimetable().apply { sortByStartTime() }
+                val timeTable = session.todaysTimetable(config.untis.daysInAdvance).apply { sortByStartTime() }
                 for (lesson in timeTable) {
                     (lessonParser.parseChange(lesson) ?: continue)
-                        .filterNot { LessonNotificationStore.has(it.lessonTime).ifTrue { d("non-normal lesson (${it.lessonTime}, ${it.lessonName}) has already been noticed") } }
+                        .filterNot { LessonNotificationStore.has(it.lessonTime, it.lessonDate).ifTrue { d("non-normal lesson (${it.lessonTime}${it.lessonDate.daysString()}, ${it.lessonName}) has already been noticed") } }
                         .forEach {
-                            LessonNotificationStore.add(it.lessonTime)
+                            LessonNotificationStore.add(it.lessonTime, it.lessonDate)
                             notificationProvider.sendChanges(it)
                         }
                 }

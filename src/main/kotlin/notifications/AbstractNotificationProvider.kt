@@ -3,6 +3,7 @@ package notifications
 import config.NotificationConfig
 import untis.LessonChange
 import untis.LessonChangeType
+import utils.daysString
 
 
 abstract class AbstractNotificationProvider<T: NotificationConfig>(private val config: T) {
@@ -11,13 +12,13 @@ abstract class AbstractNotificationProvider<T: NotificationConfig>(private val c
     suspend fun sendChanges(vararg changes: LessonChange) = changes.forEach {
         when (it.type) {
             LessonChangeType.CANCELLED -> {
-                sendMessage("Lesson ${it.lessonTime} ${it.lessonName} has been cancelled")
+                sendMessage("Lesson ${it.lessonTime}${it.lessonDate.daysString()} ${it.lessonName} has been cancelled")
             }
             LessonChangeType.ROOM -> {
-                sendMessage("Lesson ${it.lessonTime} (${it.lessonName}) has been assigned a new room: ${it.change}")
+                sendMessage("Lesson ${it.lessonTime}${it.lessonDate.daysString()} (${it.lessonName}) has been assigned a new room: ${it.change}")
             }
             LessonChangeType.TEACHER -> {
-                sendMessage( "Lesson ${it.lessonTime} (${it.lessonName}) has been assigned a new teacher: ${it.change}")
+                sendMessage( "Lesson ${it.lessonTime}${it.lessonDate.daysString()} (${it.lessonName}) has been assigned a new teacher: ${it.change}")
             }
         }
     }
