@@ -36,12 +36,12 @@ class LessonParser(val config: TimeTableConfig) {
         val changes = mutableListOf<LessonChange>()
 
         (lesson.originalTeachers.isEmpty()).ifFalse {
-            changes += LessonChange(LessonChangeType.TEACHER, date, time, name, lesson.teachers[0].longName)
+            changes += LessonChange(LessonChangeType.TEACHER, date, time, name, lesson.teachers.firstOrNull()?.longName ?: "---")
             d("found changed teacher ($time, $date, $name)")
         }
 
         (lesson.originalRooms.isEmpty()).ifFalse {
-            changes += LessonChange(LessonChangeType.ROOM, date, time, name, lesson.rooms[0].name)
+            changes += LessonChange(LessonChangeType.ROOM, date, time, name, lesson.rooms.firstOrNull()?.name ?: "---")
             d("found changed room ($time, $date, $name)")
         }
 
